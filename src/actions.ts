@@ -4,9 +4,12 @@ import { PrismaClient } from "@prisma/client";
 
 import { User } from "@prisma/client";
 
-import path from "path";
-
 const prisma = new PrismaClient();
+
+type FormState = {
+  message: string;
+  type: string;
+};
 
 // Resgatar usuário por email
 export async function getUserByEmail(
@@ -19,4 +22,11 @@ export async function getUserByEmail(
   });
 
   return user;
+}
+
+export async function updateUserProfile(
+  formState: FormState,
+  formData: FormData
+): Promise<FormState> {
+  return { message: "Perfil atualizado com sucesso!", type: "success" };
 }
