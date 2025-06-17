@@ -5,6 +5,7 @@ import { useFormState } from "react-dom";
 import { updateUserProfile } from "@/actions";
 import Label from "./Label";
 import Button from "./Button";
+import ImagePreview from "./ImagePreview";
 
 type ProfileFormProps = {
   user: User;
@@ -19,7 +20,10 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
   return (
     <div>
       {formState.message && <p>Algum texto...</p>}
-      <form>
+      <form
+        className="flex flex-col gap-4"
+        action={formAction}
+        encType="multipart/form-data">
         <input type="hidden" name="id" value={user.id} />
         <div>
           <Label htmlFor="name" text="Nome" />
@@ -32,7 +36,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
             className="p-2 border border-zinc-300 rounded w-full text-sm placeholder:text-zinc-500 focus:ring-0 focus:outline-none"
           />
         </div>
-        <p>Image preview</p>
+        <ImagePreview />
         <div className="flex justify-end">
           <Button type="submit" text="Salvar" />
         </div>
