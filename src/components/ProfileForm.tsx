@@ -6,6 +6,7 @@ import { updateUserProfile } from "@/actions";
 import Label from "./Label";
 import Button from "./Button";
 import ImagePreview from "./ImagePreview";
+import FlashMessage from "./FlashMessage";
 
 type ProfileFormProps = {
   user: User;
@@ -19,7 +20,9 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
 
   return (
     <div>
-      {formState.message && <p>Algum texto...</p>}
+      {formState.message && (
+        <FlashMessage message={formState.message} type={formState.type} />
+      )}
       <form
         className="flex flex-col gap-4"
         action={formAction}
