@@ -17,7 +17,7 @@ type FormState = {
   type: string;
 };
 
-// Resgatar usuário por email
+// Get user by email
 export async function getUserByEmail(
   email: string | null
 ): Promise<User | null> {
@@ -30,6 +30,7 @@ export async function getUserByEmail(
   return user;
 }
 
+// Update User Profile
 export async function updateUserProfile(
   formState: FormState,
   formData: FormData
@@ -76,8 +77,7 @@ export async function updateUserProfile(
   return { message: "Perfil atualizado com sucesso!", type: "success" };
 }
 
-// Crieate post
-
+// Create post
 export async function createPost(
   formState: FormState,
   formData: FormData
@@ -159,4 +159,83 @@ export async function deletePost(formData: FormData) {
   revalidatePath("/my-posts");
 
   redirect("/my-posts");
+}
+
+// get all posts
+export async function getAllPosts() {
+  return await prisma.post.findMany({
+    include: {
+      user: true,
+      likes: true,
+      comments: {
+        include: {
+          user: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+}
+
+// Like post
+export async function likePost(postId: string, userId: string) {
+  const session = await auth();
+
+  if (!session) redirect("/");
+
+  if (session.user.userId !== userId) {
+    throw new Error("Não autorizado!");
+  }
+
+  // Check if the post is already liked by the user
+  const existingLike = await prisma.like.findFirst({
+    where: {
+      postId,
+      userId,
+    },
+  });
+
+  if (existingLike) {
+    await prisma.like.delete({
+      where: {
+        id: existingLike.id,
+      },
+    });
+  } else {
+    await prisma.like.create({
+      data: {
+        postId,
+        userId,
+      },
+    });
+  }
+
+  revalidatePath("/");
+}
+
+// Comment on post
+export async function addComment(
+  postId: string,
+  userId: string,
+  content: string
+) {
+  const session = await auth();
+
+  if (!session) redirect("/");
+
+  if (session.user.userId !== userId) {
+    throw new Error("Não autorizado!");
+  }
+
+  await prisma.comment.create({
+    data: {
+      postId,
+      userId,
+      content,
+    },
+  });
+
+  revalidatePath("/");
 }
