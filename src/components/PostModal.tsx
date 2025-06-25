@@ -8,6 +8,7 @@ interface PostModalProps {
   isOpen: boolean;
   onClose: () => void;
   post: Post | null;
+  currentUserId?: string;
 }
 
 export default function PostModal({ isOpen, onClose, post }: PostModalProps) {

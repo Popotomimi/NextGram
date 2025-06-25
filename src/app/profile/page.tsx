@@ -18,21 +18,23 @@ export default async function UserProfile() {
   }
 
   return (
-    <div className="w-[35rem] mx-auto my-10 p-4">
-      <h1 className="text-[2rem] leading-10 font-semibold text-center">
+    <div className="max-w-2xl w-full mx-auto my-10 px-4 sm:px-6">
+      <h1 className="text-2xl sm:text-3xl font-semibold text-center leading-snug">
         Perfil de {user.name}
       </h1>
+
       {user.image && (
-        <div className="w-full flex justify-center my-6">
+        <div className="flex justify-center my-6">
           <Image
             src={user.image}
             alt={`Imagem de perfil de ${user.name}`}
-            className="w-40 h-40 p-4 object-cover"
-            width={320}
-            height={320}
+            className="rounded-full object-cover w-32 h-32 sm:w-40 sm:h-40"
+            width={160}
+            height={160}
           />
         </div>
       )}
+
       <ProfileForm user={user} />
     </div>
   );

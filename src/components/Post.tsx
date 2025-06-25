@@ -2,6 +2,9 @@
 
 import Image from "next/image";
 import { Post as PostType } from "types/Post";
+import LikeButton from "./Post/LikeButton";
+import { FiMessageSquare } from "react-icons/fi";
+import CommentModal from "./Post/CommentModal";
 
 interface PostProps {
   post: PostType;
@@ -9,6 +12,12 @@ interface PostProps {
 }
 
 const Post: React.FC<PostProps> = ({ post, currentUserId }) => {
+  let isLiked = false;
+
+  if (post.likes) {
+    isLiked = post.likes.some((like) => like.userId === currentUserId);
+  }
+
   return (
     <div className="w-fit max-auto mb-6 p-4 border rounded shadow-sm">
       <Image
@@ -33,7 +42,21 @@ const Post: React.FC<PostProps> = ({ post, currentUserId }) => {
         )}
         <p className="text-sm font-medium">{post.user.name}</p>
       </div>
-      <div className="flex items-center mt-4">Ações...</div>
+      <div className="flex items-center mt-4">
+        <LikeButton
+          postId={post.id}
+          initialLikesCount={post.likes?.length ? post.likes.length : 0}
+          isLiked={isLiked}
+          currentUserId={currentUserId}
+        />
+        <button className="ml-4 flex items-center">
+          <FiMessageSquare className="w-6 h-6 text-gray-500" />
+          <span className="ml-2">
+            {post.comments ? post.comments.length : 0}
+          </span>
+        </button>
+      </div>
+      <CommentModal />
     </div>
   );
 };

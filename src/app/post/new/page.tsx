@@ -8,8 +8,8 @@ const NewPostPage = async () => {
   if (!session) return redirect("/");
 
   return (
-    <div className="w-[35rem] mx-auto p-4 my-10">
-      <h1 className="text-[2rem] leading-10 font-semibold text-center">
+    <div className="max-w-2xl w-full mx-auto my-10 px-4 sm:px-6">
+      <h1 className="text-2xl sm:text-3xl font-semibold text-center leading-snug">
         Criar Novo Post
       </h1>
       <div className="border border-zinc-300 p-4 rounded mt-8">
