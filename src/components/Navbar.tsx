@@ -13,6 +13,13 @@ const Navbar = async () => {
         <Link href="/" className="text-lg font-bold hover:text-zinc-200">
           NextGram
         </Link>
+        {!user && (
+          <Link
+            href="/signin"
+            className="text-lg font-bold hover:text-zinc-200">
+            Entrar
+          </Link>
+        )}
         {user && <NavbarClient user={user} />}
       </div>
     </nav>

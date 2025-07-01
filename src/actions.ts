@@ -1,6 +1,6 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../prisma/lib/prisma";
 
 import { User } from "@prisma/client";
 import { auth } from "auth";
@@ -9,8 +9,6 @@ import path from "path";
 
 import { promises as fs } from "fs";
 import { revalidatePath } from "next/cache";
-
-const prisma = new PrismaClient();
 
 type FormState = {
   message: string;

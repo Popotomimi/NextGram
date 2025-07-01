@@ -5,10 +5,10 @@ import Link from "next/link";
 import Image from "next/image";
 import Button from "./Button";
 import ButtonLink from "./ButtonLink";
-import { signOut } from "auth";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { RiCloseLargeFill } from "react-icons/ri";
 import { User } from "types/User";
+import { signOutAction } from "@/signout";
 
 const NavbarClient = ({ user }: { user: User }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -45,7 +45,7 @@ const NavbarClient = ({ user }: { user: User }) => {
             <Link href="/profile">Perfil</Link>
             <Link href="/post/new">Criar Postagem</Link>
             <Link href="/my-posts">Minhas Postagens</Link>
-            <form action={async () => await signOut()}>
+            <form action={signOutAction}>
               <Button text="Sair" danger type="submit" />
             </form>
           </>
@@ -62,7 +62,7 @@ const NavbarClient = ({ user }: { user: User }) => {
               <Link href="/profile">Perfil</Link>
               <Link href="/post/new">Criar Postagem</Link>
               <Link href="/my-posts">Minhas Postagens</Link>
-              <form action={async () => await signOut()}>
+              <form action={signOutAction}>
                 <Button text="Sair" danger type="submit" />
               </form>
             </>
