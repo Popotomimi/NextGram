@@ -30,7 +30,7 @@ export async function getUserByEmail(
 
 // Update User Profile
 export async function updateUserProfile(
-  formState: FormState,
+  prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
   const session = await auth();
@@ -77,7 +77,7 @@ export async function updateUserProfile(
 
 // Create post
 export async function createPost(
-  formState: FormState,
+  prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
   const session = await auth();
@@ -114,7 +114,7 @@ export async function createPost(
   redirect("/");
 }
 
-// get posts by user
+// Get posts by user
 export async function getPostsByUser(userId: string) {
   const session = await auth();
 
@@ -137,7 +137,7 @@ export async function getPostsByUser(userId: string) {
   });
 }
 
-// delete post
+// Delete post
 export async function deletePost(formData: FormData) {
   const session = await auth();
 
@@ -159,7 +159,7 @@ export async function deletePost(formData: FormData) {
   redirect("/my-posts");
 }
 
-// get all posts
+// Get all posts
 export async function getAllPosts() {
   return await prisma.post.findMany({
     include: {

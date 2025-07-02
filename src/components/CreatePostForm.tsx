@@ -1,6 +1,6 @@
 "use client";
 
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 
 import FlashMessage from "./FlashMessage";
 import { createPost } from "@/actions";
@@ -9,7 +9,7 @@ import Label from "./Label";
 import Button from "./Button";
 
 const CreatePostForm: React.FC = () => {
-  const [formState, formAction] = useFormState(createPost, {
+  const [formState, formAction] = useActionState(createPost, {
     message: "",
     type: "success",
   });
@@ -19,10 +19,7 @@ const CreatePostForm: React.FC = () => {
       {formState.message && (
         <FlashMessage message={formState.message} type={formState.type} />
       )}
-      <form
-        className="flex flex-col gap-4"
-        action={formAction}
-        encType="multipart/form-data">
+      <form className="flex flex-col gap-4" action={formAction}>
         <ImagePreview />
         <div>
           <Label htmlFor="caption" text="Conteúdo do post" />

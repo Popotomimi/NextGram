@@ -1,7 +1,8 @@
 "use client";
 
 import { User } from "types/User";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
+
 import { updateUserProfile } from "@/actions";
 import Label from "./Label";
 import Button from "./Button";
@@ -13,7 +14,7 @@ type ProfileFormProps = {
 };
 
 const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
-  const [formState, formAction] = useFormState(updateUserProfile, {
+  const [formState, formAction] = useActionState(updateUserProfile, {
     message: "",
     type: "success",
   });
@@ -23,10 +24,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
       {formState.message && (
         <FlashMessage message={formState.message} type={formState.type} />
       )}
-      <form
-        className="flex flex-col gap-4"
-        action={formAction}
-        encType="multipart/form-data">
+      <form className="flex flex-col gap-4" action={formAction}>
         <input type="hidden" name="id" value={user.id} />
         <div>
           <Label htmlFor="name" text="Nome" />
