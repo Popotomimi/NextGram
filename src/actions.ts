@@ -5,10 +5,10 @@ import { prisma } from "../prisma/lib/prisma";
 import { User } from "@prisma/client";
 import { auth } from "auth";
 import { redirect } from "next/navigation";
-import path from "path";
 
-import { promises as fs } from "fs";
 import { revalidatePath } from "next/cache";
+
+import { uploadImage } from "../prisma/lib/cloudinary";
 
 type FormState = {
   message: string;
@@ -34,7 +34,6 @@ export async function updateUserProfile(
   formData: FormData
 ): Promise<FormState> {
   const session = await auth();
-
   if (!session) redirect("/");
 
   const id = formData.get("id") as string;
@@ -49,39 +48,41 @@ export async function updateUserProfile(
     throw new Error("Não autorizado!");
   }
 
-  // save image to server
-  let imageUrl;
-  if (imageFile && imageFile.name !== "undefined") {
-    const uploadDir = path.join(process.cwd(), "public", "uploads");
-    // create the upload directory if it doesn't exist
-    await fs.mkdir(uploadDir, { recursive: true });
-    const filePath = path.join(uploadDir, imageFile.name);
-    const arrayBuffer = await imageFile.arrayBuffer();
-    // create file on directory
-    await fs.writeFile(filePath, Buffer.from(arrayBuffer));
+  try {
+    let imageUrl;
 
-    imageUrl = `/uploads/${imageFile.name}`;
+    if (imageFile && imageFile.name !== "undefined") {
+      imageUrl = await uploadImage(imageFile);
+    }
+
+    const dataToUpdate = imageUrl ? { name, image: imageUrl } : { name };
+
+    await prisma.user.update({
+      where: { id },
+      data: dataToUpdate,
+    });
+
+    revalidatePath("/profile");
+
+    return {
+      message: "Perfil atualizado com sucesso!",
+      type: "success",
+    };
+  } catch (error) {
+    console.error("Erro ao atualizar perfil:", error);
+    return {
+      message: "Erro ao atualizar o perfil. Tente novamente.",
+      type: "error",
+    };
   }
-
-  const dataToUpdate = imageUrl ? { name, image: imageUrl } : { name };
-
-  await prisma.user.update({
-    where: { id },
-    data: dataToUpdate,
-  });
-
-  revalidatePath("/profile");
-
-  return { message: "Perfil atualizado com sucesso!", type: "success" };
 }
 
-// Create post
+// Create Post
 export async function createPost(
   prevState: FormState,
   formData: FormData
 ): Promise<FormState> {
   const session = await auth();
-
   if (!session) redirect("/");
 
   const caption = formData.get("caption") as string;
@@ -91,15 +92,7 @@ export async function createPost(
     return { message: "Preencha todos os campos!", type: "error" };
   }
 
-  const uploadDir = path.join(process.cwd(), "public", "uploads");
-  // create the upload directory if it doesn't exist
-  await fs.mkdir(uploadDir, { recursive: true });
-  const filePath = path.join(uploadDir, imageFile.name);
-  const arrayBuffer = await imageFile.arrayBuffer();
-  // create file on directory
-  await fs.writeFile(filePath, Buffer.from(arrayBuffer));
-
-  const imageUrl = `/uploads/${imageFile.name}`;
+  const imageUrl = await uploadImage(imageFile);
 
   await prisma.post.create({
     data: {
@@ -110,7 +103,6 @@ export async function createPost(
   });
 
   revalidatePath("/");
-
   redirect("/");
 }
 
