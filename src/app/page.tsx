@@ -15,7 +15,7 @@ export default async function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center p-4 my-10">
-      <h1 className="text-[2rem] leading-10 font-semibold">
+      <h1 className="text-[2rem] text-center leading-10 font-semibold">
         Confira os posts mais recentes
       </h1>
       <div>

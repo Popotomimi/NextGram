@@ -8,19 +8,19 @@ const Navbar = async () => {
   const user = await getUserByEmail(session?.user.email);
 
   return (
-    <nav className="bg-gray-800 text-white px-6 py-4">
-      <div className="flex justify-between items-center">
-        <Link href="/" className="text-lg font-bold hover:text-zinc-200">
+    <nav className="bg-gray-800 text-white px-6 py-4 shadow-sm">
+      <div className="max-w-7xl mx-auto w-full flex justify-between items-center">
+        {/* Logo */}
+        <Link
+          href="/"
+          className="text-xl font-bold text-white hover:text-blue-400 transition-colors">
           NextGram
         </Link>
-        {!user && (
-          <Link
-            href="/signin"
-            className="text-lg font-bold hover:text-zinc-200">
-            Entrar
-          </Link>
-        )}
-        {user && <NavbarClient user={user} />}
+
+        <div className="flex items-center gap-4">
+          {/* Botão 'Entrar' visível apenas no desktop */}
+          <NavbarClient user={user!} />
+        </div>
       </div>
     </nav>
   );

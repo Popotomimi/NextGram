@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "NextGram",
-  description: "Intagram com NextJS",
+  description: "Instagram com NextJS",
   icons: {
     icon: "/favicon.ico",
   },
