@@ -20,13 +20,15 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
   });
 
   return (
-    <div>
+    <div className="text-white">
       {formState.message && (
         <FlashMessage message={formState.message} type={formState.type} />
       )}
-      <form className="flex flex-col gap-4" action={formAction}>
+      <form
+        className="flex flex-col gap-6 bg-gray-800 p-6 rounded-xl shadow-lg transition-all duration-300"
+        action={formAction}>
         <input type="hidden" name="id" value={user.id} />
-        <div>
+        <div className="flex flex-col gap-2">
           <Label htmlFor="name" text="Nome" />
           <input
             type="text"
@@ -34,7 +36,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ user }) => {
             name="name"
             placeholder="Digite seu nome"
             defaultValue={user.name || ""}
-            className="p-2 border border-zinc-300 rounded w-full text-sm placeholder:text-zinc-500 focus:ring-0 focus:outline-none"
+            className="p-3 rounded-md w-full text-sm text-white border border-white placeholder:text-gray-400 focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-500 transition-all duration-200"
           />
         </div>
         <ImagePreview />
