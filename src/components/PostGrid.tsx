@@ -28,23 +28,25 @@ const PostGrid: React.FC<PostGridProps> = ({ posts, userId }) => {
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {posts.map((post) => (
           <div
             key={post.id}
             onClick={() => openModal(post)}
-            className="border rounded p-4 shadow-sm cursor-pointer hover:shadow-md transition">
-            <div className="w-full aspect-[3/2] relative mb-4 rounded overflow-hidden">
+            className="bg-gray-800 border border-gray-700 rounded-xl p-4 shadow-md cursor-pointer hover:shadow-lg hover:border-blue-500 transition-all duration-300">
+            <div className="w-full aspect-[3/2] relative mb-4 rounded-lg overflow-hidden shadow-sm">
               <Image
                 src={post.imageUrl}
                 alt={post.caption || "Imagem do post"}
                 fill
-                className="object-cover"
+                className="object-contain transition-transform duration-300 hover:scale-105"
               />
             </div>
 
             {post.caption && (
-              <p className="mb-2 text-sm font-medium">{post.caption}</p>
+              <p className="mb-2 text-sm font-medium text-white">
+                {post.caption}
+              </p>
             )}
 
             <form action={deletePost}>

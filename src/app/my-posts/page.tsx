@@ -15,14 +15,16 @@ const MyPostsPage: React.FC = async () => {
   const posts = await getPostsByUser(userId);
 
   return (
-    <div className="mx-auto my-10 p-4">
-      <h1 className="text-[2rem] leading-10 font-semibold text-center mb-8">
+    <div className="w-[90%] sm:w-2/3 lg:max-w-2xl mx-auto my-10 px-4 sm:px-6 text-white animate-[fadeIn_0.4s_ease-out_forwards]">
+      <h1 className="text-3xl font-semibold text-center mb-8 leading-snug">
         Minhas postagens
       </h1>
       {/* Deveres - Visualizar post, Editar post, dar like, comentar */}
       {posts.length === 0 ? (
-        <div className="text-center">
-          <p className="mb-4 font-medium">Você ainda não tem postagens.</p>
+        <div className="bg-gray-800 border border-gray-700 p-6 rounded-xl shadow-lg text-center">
+          <p className="mb-4 text-gray-300 text-sm sm:text-base font-medium">
+            Você ainda não tem postagens.
+          </p>
           <div className="flex justify-center">
             <ButtonLink text="Criar postagem" url="/post/new" />
           </div>

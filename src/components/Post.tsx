@@ -22,7 +22,7 @@ const Post: React.FC<PostProps> = ({ post, currentUserId }) => {
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
 
   return (
-    <div className="w-fit max-auto mb-6 p-4 border rounded shadow-sm">
+    <div className="w-fit mx-auto mb-6 p-4 bg-gray-800 border border-gray-700 rounded-xl shadow-lg text-white transition-all duration-300">
       <Image
         src={post.imageUrl}
         alt={post.caption || "Imagem sem legenda"}
@@ -31,9 +31,9 @@ const Post: React.FC<PostProps> = ({ post, currentUserId }) => {
         height={400}
       />
       {post.caption && (
-        <p className="mb-4 text-sm font-medium">{post.caption}</p>
+        <p className="mb-4 text-sm font-medium text-gray-300">{post.caption}</p>
       )}
-      <div className="flex items-center">
+      <div className="flex items-center mb-2">
         {post.user.image && (
           <Image
             src={post.user.image}
