@@ -23,7 +23,7 @@ const LikeButton: React.FC<LikeButtonProps> = ({
 
   const handleLike = async () => {
     if (!currentUserId) {
-      window.location.href = "/login";
+      window.location.href = "/signin";
       return;
     }
 
